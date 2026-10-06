@@ -1,4 +1,4 @@
-"""Command-line entry point for the wind-turbine DDQN example."""
+"""Entry point for the wind-turbine DDQN example."""
 
 from turbine_rl.cli import main
 
