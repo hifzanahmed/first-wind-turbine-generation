@@ -20,15 +20,29 @@ from turbine_rl.training import EpisodeMetrics, evaluate, train
 
 
 def _parse_args(arguments: Sequence[str] | None = None) -> argparse.Namespace:
-    # Provide configurable offline training and evaluation from the command line.
-    parser = argparse.ArgumentParser(description="Train/evaluate the offline DDQN mock.")
+    """Get the settings for running the DDQN workflow.
+
+    When you start the program from a terminal, this reads the options you
+    entered there. Code or tests can also pass in their own list of options.
+    The returned settings tell ``main`` which environment and files to use,
+    how to train or evaluate, and where to save the results.
+    """
+    parser = argparse.ArgumentParser(description="Train/evaluate the offline DDQN workflow.")
     parser.add_argument(
         "--environment",
         choices=("bem", "csv-mock"),
         default="bem",
-        help="Use the BEM simulation or the original CSV mock environment",
+        help=(
+            "Select the BEM simulator (wind-profile input) or the legacy "
+            "CSV-backed mock (pre-recorded turbine-state input)"
+        ),
     )
-    parser.add_argument("--csv", type=Path, default=CONFIG.csv_path, help="Input CSV path")
+    parser.add_argument(
+        "--csv",
+        type=Path,
+        default=CONFIG.csv_path,
+        help="Legacy CSV mock input with pre-recorded turbine-state columns",
+    )
     parser.add_argument(
         "--wind-csv",
         type=Path,
@@ -87,7 +101,7 @@ def _write_metrics(path: Path, metrics: list[EpisodeMetrics]) -> None:
 
 
 def main(arguments: Sequence[str] | None = None) -> None:
-    # Run DDQN with either the BEM model or the original CSV-based mock.
+    # Run DDQN with BEM and wind-profile CSV input, or with the legacy CSV mock.
     args = _parse_args(arguments)
     if (
         args.episodes < 1
