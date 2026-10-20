@@ -102,7 +102,8 @@ def _write_metrics(path: Path, metrics: list[EpisodeMetrics]) -> None:
 
 def main(arguments: Sequence[str] | None = None) -> None:
     # Run DDQN with BEM and wind-profile CSV input, or with the legacy CSV mock.
-    args = _parse_args(arguments)
+    args = _parse_args(arguments) # cli run time arguments or test-supplied arguments by user
+    ## validate episode, batch size, and target update interval, validation fraction, validation interval, patience, value-iteration sample steps, eval-only and compare-baselines arguments
     if (
         args.episodes < 1
         or args.batch_size < 1
