@@ -219,7 +219,8 @@ def _make_environment(
     start_index: int = 0,
     end_index: int | None = None,
 ) -> CsvWindEnvironment | BEMWindEnvironment:
-    # Construct the selected environment over a requested chronological segment.
+    # Create the BEM simulator (default) or CSV mock over the requested sample range.
+    # The environment supplies states, rewards, and action outcomes for DDQN training and evaluation.
     if args.environment == "bem":
         return BEMWindEnvironment(
             wind_csv_path=args.wind_csv,
