@@ -133,7 +133,8 @@ def main(arguments: Sequence[str] | None = None) -> None:
     training_environment = full_environment
     validation_environment = None
     if not args.eval_only and args.validation_fraction > 0.0:
-        # Hold out the latest contiguous time segment to avoid temporal leakage.
+        # For example, with 100 wind samples and 20% validation, train on the first 80
+        # and check how well the agent handles the last 20 it hasn't seen.
         sample_count = _environment_length(full_environment)
         validation_count = max(1, round(sample_count * args.validation_fraction))
         training_end = sample_count - validation_count
