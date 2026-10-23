@@ -16,7 +16,9 @@ class TrainingConfig:
     validation_fraction: float = 0.2
     validation_interval: int = 1
     early_stopping_patience: int | None = None
+    # Set a path to save the trained agent; use that same path as load_path later.
     checkpoint_path: Path | None = None
+    # Set to a previously saved checkpoint to restore the agent; None starts fresh.
     load_path: Path | None = None
     metrics_path: Path | None = None
     eval_only: bool = False

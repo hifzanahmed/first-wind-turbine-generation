@@ -135,6 +135,7 @@ def main(arguments: Sequence[str] | None = None) -> None:
     if not args.eval_only and args.validation_fraction > 0.0:
         # For example, with 100 wind samples and 20% validation, train on the first 80
         # and check how well the agent handles the last 20 it hasn't seen.
+        # default validation fraction is 0.2, so 20% of the samples are used for validation.
         sample_count = _environment_length(full_environment)
         validation_count = max(1, round(sample_count * args.validation_fraction))
         training_end = sample_count - validation_count
@@ -153,6 +154,8 @@ def main(arguments: Sequence[str] | None = None) -> None:
         batch_size=args.batch_size,
         target_update_interval=args.target_update_interval,
     )
+    # Optional resume logic: CONFIG.load_path defaults to None, so this is skipped
+    # unless a checkpoint path is explicitly supplied with --load. this is junk code and no use until checkpoint is saved and provided.
     if args.load is not None:
         agent.load(args.load)
 
